@@ -17,7 +17,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from . import views #这件是新加的为了添加新的views.home进来
+# from . import views #这件是新加的为了添加新的views.home进来
+# from . import whyViews #由此可见views.py这个文件的名字是可以自定义的
+
+from subblog import views as sviews
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,5 +35,17 @@ urlpatterns = [
 	# url(r'^nono$', views.helloWorld),
     #
 	# url(r'^blog/topic_[\d]$', views.test),#[\d]表示文章编号
-	url(r'^blog/topic_(?P<id>[\d]+)$', views.home),
-]
+	# url(r'^blog/topic_(?P<id>[\d]+)$', views.home),
+    # url(r'^hello/', whyViews.whyViewsFunc)
+    # url(r'^hello/', whyViewsFunc)
+
+    # url(r'^subblog/$', views.hello),
+    # url(r'^subblog/(\d+)/$', views.hello), #小括号(\d+)括起来就是网址传参的方式,你可以用这种方式写更清晰(?P<offset>\d+)因为你指定了offset应该为hello方法的参数
+    url(r'^hello/$', sviews.hello),
+
+    url(r'^$', sviews.index),
+    url(r'^article/(?P<id>\d+)/$', sviews.getArticleById),
+
+
+] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+

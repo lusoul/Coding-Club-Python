@@ -1,3 +1,5 @@
+#coding=utf-8
+
 """
 Django settings for blog project.
 
@@ -37,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'subblog', #如果你是pycharm帮你新建的django app就不需要手动在这里写
 ]
 
 MIDDLEWARE = [
@@ -51,10 +55,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blog.urls'
 
+#该内容是django 1.8以后才有的，因为此时django支持多模版引擎
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'], #这里是空，说明模版路径还未指定，你可以自己创建一个template文件夹专门存放模版，然后在这里指定
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,7 +80,7 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3', #这里如果你改成mysql就变成mysql了，oracle就变成oracle了
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
@@ -117,4 +122,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 这是djagon 1.7时代的配置模版的方法，现在是django 1.8以后了，所以不用这种方式配置了
+#TEMPLATE_DIRS = (
+#    os.path.join(BASE_DIR, 'templates'),
+#)
