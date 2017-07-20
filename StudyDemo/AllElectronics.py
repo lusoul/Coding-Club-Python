@@ -22,7 +22,8 @@ headers = next(reader)#这是python3支持的写法
 # 主要分3步走：
 
 # （1）sklearn对Decision Tree的实现已经实现好了，但它对输入数据格式上有基本要求，不能直接用excel里面的raw data，所以我们需要进行预处理
-# sklearn要求我们所有的特征值（属性age，income，student，credit_rating的值）以及类标记（class_buys_computer），他们的值必须都要是数值型的值，而不能是raw data中类别的值String，所以需要进行转换
+# sklearn要求我们所有的特征值（属性age，income，student，credit_rating的值）以及类标记（class_buys_computer），他们的值必须都要是数值型的值，
+# 而不能是raw data中类别的值String，所以需要进行转换
 # 比如age属性下有 老，中，轻 三种类型的值，我们要搭建一个矩阵，用0，1来代表这3个值
 # 例如AllElectronics.csv第一行数据的age是youth，它不是中年或老年，那么
 # youth:1, middle_aged: 0, senior: 0
@@ -44,7 +45,8 @@ for row in reader: #reader此时Object含有所有元素，因为开始next了�
     
 #print(featureList)
 #print(labelList)
-#我们为什么要建立list类型？因为python给我提供了一个模块叫DictVectorizer，如果一个list里面有dictionary类型的话，我们可以调用以下方法直接转成0，1的dummy variable,所以以上步骤要生成包含dict的list
+#我们为什么要建立list类型？因为python给我提供了一个模块叫DictVectorizer，如果一个list里面有dictionary类型的话，我们可以调用以下
+# 方法直接转成0，1的dummy variable,所以以上步骤要生成包含dict的list
 vec = DictVectorizer()
 dummyX = vec.fit_transform(featureList).toarray()
 print("dummyX:" + str(dummyX))
@@ -55,10 +57,11 @@ label = preprocessing.LabelBinarizer()
 dummyY = label.fit_transform(labelList)
 print("dummyY: " + str(dummyY))
 
-# （2）处理完之后我们直接用sklearn里面自带的tree的分类器DecisionTreeClassifier进行模型的创建
+# （2）处理完之后我们直接用sklearn里面自带的tree的分类器DecisionTreeClassifier进行模型的创建。其实模型就是分类器，相当于new了一个对象
 # 此时dummyX和dummyY都符合了sklearn里面的格式
 # using decision tree for classification
-clf = tree.DecisionTreeClassifier(criterion = "entropy")#clf是分类起。决策树选取属性作为节点的度量方法是信息熵，ID3算法，如果你不指明这里它默认使用CART算法
+clf = tree.DecisionTreeClassifier(criterion = "entropy")#clf是分类器。决策树选取属性作为节点的度量方法是信息熵，ID3算法，如
+# 果你不指明这里它默认使用CART算法
 clf = clf.fit(dummyX, dummyY) #建模，构建出决策树 
 print("clf: " + str(clf))
 
